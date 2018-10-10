@@ -2,9 +2,9 @@ import {Table, Grid, Button, Form } from 'react-bootstrap';
 import React, { Component } from 'react';
 //import logo from './logo.svg';
 import './Home.css';
-import web3 from '../eth-ipfs/web3';
+//import web3 from '../eth-ipfs/web3';
 import ipfs from '../eth-ipfs/ipfs';
-import storehash from '../eth-ipfs/storehash';
+//import storehash from '../eth-ipfs/storehash';
 import config from '../config'
 
 class Home extends Component {
@@ -12,11 +12,11 @@ class Home extends Component {
     state = {
       ipfsHash:null,
       buffer:'',
-      ethAddress:'',
-      blockNumber:'',
-      transactionHash:'',
-      gasUsed:'',
-      txReceipt: '',
+      //ethAddress:'',
+      //blockNumber:'',
+      //transactionHash:'',
+      //gasUsed:'',
+      //txReceipt: '',
       fileName:''  
     };
    
@@ -44,6 +44,7 @@ class Home extends Component {
         this.setState({buffer});
     };
 
+    /*
     getTxReceipt = async () => {
 
         try{
@@ -64,18 +65,19 @@ class Home extends Component {
             console.log(error);
         } //catch
     } //onClick
+    */
 
     onSubmit = async (event) => {
       event.preventDefault();
 
       //bring in user's metamask account address
-      const accounts = await web3.eth.getAccounts();
+      //const accounts = await web3.eth.getAccounts();
      
-      console.log('Sending from Metamask account: ' + accounts[0]);
+      //console.log('Sending from Metamask account: ' + accounts[0]);
 
       //obtain contract address from storehash.js
-      const ethAddress= await storehash.options.address;
-      this.setState({ethAddress});
+      //const ethAddress= await storehash.options.address;
+      //this.setState({ethAddress});
 
       //save document to IPFS,return its hash#, and set hash# to state
       //https://github.com/ipfs/interface-ipfs-core/blob/master/SPEC/FILES.md#add 
@@ -96,22 +98,25 @@ class Home extends Component {
         //return the transaction hash from the ethereum contract
         //see, this https://web3js.readthedocs.io/en/1.0/web3-eth-contract.html#methods-mymethod-send
 
+        /*
         storehash.methods.sendHash(this.state.ipfsHash).send({
           from: accounts[0] 
         }, (error, transactionHash) => {
           console.log(transactionHash);
           this.setState({transactionHash});
         }); //storehash 
-
+        */
+       
         fetch(config.express.url+config.express.port+"?cid=" + this.state.ipfsHash + "&filename=" + this.state.fileName)
           .then(res => res.text())
           .then(res => {
             console.log("storingdb statues :", res)
           })// 
-
+        
       }) //await ipfs.add 
 
     }; //onSubmit 
+   
 
     render() {
       
@@ -139,7 +144,7 @@ class Home extends Component {
           </Form>
 
           <hr/>
-            <Button onClick = {this.getTxReceipt}> Get Transaction Receipt </Button>
+            {/*<Button onClick = {this.getTxReceipt}> Get Transaction Receipt </Button>*/}
 
               <Table bordered responsive >
                 <thead>
@@ -148,17 +153,16 @@ class Home extends Component {
                     <th>Values</th>
                   </tr>
                 </thead>
-               
                 <tbody >
                   <tr>
                     <td>IPFS Hash (stored on Eth Contract)</td>
                     <td id = "ipfsHash">{this.state.ipfsHash}</td>
                   </tr>
+                  {/* 
                   <tr>
                     <td>Ethereum Contract Address</td>
                     <td>{this.state.ethAddress}</td>
                   </tr>
-
                   <tr>
                     <td>Tx Hash  </td>
                     <td>{this.state.transactionHash}</td>
@@ -172,7 +176,8 @@ class Home extends Component {
                   <tr>
                     <td>Gas Used</td>
                     <td>{this.state.gasUsed}</td>
-                  </tr>                
+                  </tr>   
+                  */}            
                 </tbody>
 
             </Table>
